@@ -1,10 +1,11 @@
-var express = require('express');
-var chalk = require('chalk');
-var morgan = require('morgan');
-var path = require('path');
-var debug = require('debug')('app');
+const express = require('express');
+const chalk = require('chalk');
+const morgan = require('morgan');
+const path = require('path');
+const debug = require('debug')('app');
 
-var app = express();
+const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(morgan('tiny'));
 app.use(express.static(path.join(__dirname, '/public/')));
@@ -12,11 +13,13 @@ app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dis
 app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/js')));
 app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist')));
 app.use('/js', express.static(path.join(__dirname, '/node_modules/popper.js/dist')));
+app.set('views', './src/views');
+app.set('view engine', 'ejs');
 
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'views/index.html'));
-})
+app.get('/', (req, res) => {
+  res.render('index', { list: ['a', 'b'], title: 'Library' });
+});
 
-app.listen(3000, function(){
-    debug(`listening on port ${chalk.green('3000')}`);
+app.listen(port, () => {
+  debug(`listening on this port ${chalk.green(port)}`);
 });
