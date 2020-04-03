@@ -13,13 +13,14 @@
   "dependencies": {
     "bootstrap": "^4.4.1",
     "chalk": "^3.0.0",
-    "eslint": "^6.8.0",
+    "debug": "^4.1.1",
     "express": "^4.17.1",
     "jquery": "^3.3.1",
     "morgan": "^1.9.1",
     "popper.js": "^1.14.3"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2"
   }
