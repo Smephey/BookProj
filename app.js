@@ -16,7 +16,11 @@ app.use('/js', express.static(path.join(__dirname, '/node_modules/popper.js/dist
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
-const bookRouter = require('./src/routes/bookRoutes');
+const nav = [
+  { link: '/books', title: 'Books' },
+  { link: '/authors', title: 'Authors' }];
+
+const bookRouter = require('./src/routes/bookRoutes')(nav);
 
 app.use('/books', bookRouter);
 app.get('/', (req, res) => {
@@ -24,8 +28,8 @@ app.get('/', (req, res) => {
     'index',
     {
       nav: [
-        { link: '/books', title: 'Books' },
-        { link: '/authors', title: 'Authors' }],
+        { link: '/books', title: 'Book' },
+        { link: '/authors', title: 'Author' }],
       title: 'Library',
     }
   );
