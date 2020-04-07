@@ -1,11 +1,38 @@
-var express = require('express');
+const express = require('express');
+const chalk = require('chalk');
+const morgan = require('morgan');
+const path = require('path');
+const debug = require('debug')('app');
 
-var app = express();
+const app = express();
+const port = process.env.PORT || 3000;
 
-app.get('/', function(req, res) {
-    res.send('Hello from my library app');
-})
+app.use(morgan('tiny'));
+app.use(express.static(path.join(__dirname, '/public/')));
+app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
+app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/js')));
+app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist')));
+app.use('/js', express.static(path.join(__dirname, '/node_modules/popper.js/dist')));
+app.set('views', './src/views');
+app.set('view engine', 'ejs');
 
-app.listen(3000, function(){
-    console.log('listening on port 3000');
+const bookRouter = require('./src/routes/bookRoutes');
+
+app.use('/books', bookRouter);
+app.get('/', (req, res) => {
+  res.render(
+    'index',
+    {
+      nav: [
+        { link: '/books', title: 'Books' },
+        { link: '/authors', title: 'Authors' }],
+      title: 'Library',
+    }
+  );
+});
+
+
+
+app.listen(port, () => {
+  debug(`listening on this port ${chalk.green(port)}`);
 });
