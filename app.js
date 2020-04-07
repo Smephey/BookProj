@@ -16,9 +16,22 @@ app.use('/js', express.static(path.join(__dirname, '/node_modules/popper.js/dist
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
+const bookRouter = require('./src/routes/bookRoutes');
+
+app.use('/books', bookRouter);
 app.get('/', (req, res) => {
-  res.render('index', { list: ['a', 'b'], title: 'Library' });
+  res.render(
+    'index',
+    {
+      nav: [
+        { link: '/books', title: 'Books' },
+        { link: '/authors', title: 'Authors' }],
+      title: 'Library',
+    }
+  );
 });
+
+
 
 app.listen(port, () => {
   debug(`listening on this port ${chalk.green(port)}`);
